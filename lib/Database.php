@@ -15,13 +15,12 @@ class Database
 	{
 		if (!isset($this->pdo)) {
 			try{
-				$link = new PDO("mysql:host=".$this->hostdb.";dbname=".$this->namedb, $this->userdb, $this->passdb);
-				$link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$link->exec("Set CHARACTER SET utf8");
-				$this->pdo = $link;
-
+			$link = new pdo("mysql:host=".$this->hostdb.";dbname=".$this->namedb, $this->userdb, $this->passdb);
+			$link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$link->exec("set CHARACTER SET utf8");
+			$this->pdo = $link;
 			}catch(PDOException $e){
-				echo "Faield To Connect Database".$e->getMessage();
+				echo "Database Connection Failed ".$e->getMessage();
 				die();
 			}
 		}

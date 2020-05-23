@@ -1,12 +1,14 @@
 <?php
   include_once 'inc/header.php';
   include_once 'lib/User.php';
+  Session::checkSession();
   $user = new User();
     $loginmsg = Session::get('loginmsg');
     if (isset($loginmsg)) {
       
     echo $loginmsg;
     }
+    SESSION::set('loginmsg', NULL);
 
 ?>
         
@@ -32,27 +34,19 @@
               </tr>
             </thead>
             <tbody>
+              <?php
+                $user = new User();
+                $userData = $user->getUserData();
+                foreach ($userData as $data) {
+              ?>
               <tr>
-                <td>01</td>
-                <td>Md Alam</td>
-                <td>devalam</td>
-                <td>mail.alam.bd@gamil.com</td>
-                <td><a href="" class="btn btn-primary">Edit</a><a href="" class="btn btn-danger">Delete</a></td>
+                <td><?php echo $data['id'] ?></td>
+                <td><?php echo $data['name'] ?></td>
+                <td><?php echo $data['username'] ?></td>
+                <td><?php echo $data['email'] ?></td>
+                <td><a href="view.php?id=<?php echo $data['id']; ?>" class="btn btn-primary">view</a></td>
               </tr>
-              <tr>
-                <td>01</td>
-                <td>Md Alam</td>
-                <td>devalam</td>
-                <td>mail.alam.bd@gamil.com</td>
-                <td><a href="" class="btn btn-primary">Edit</a><a href="" class="btn btn-danger">Delete</a></td>
-              </tr>
-              <tr>
-                <td>01</td>
-                <td>Md Alam</td>
-                <td>devalam</td>
-                <td>mail.alam.bd@gamil.com</td>
-                <td><a href="" class="btn btn-primary">Edit</a><a href="" class="btn btn-danger">Delete</a></td>
-              </tr>
+              <?php }  ?>
             </tbody>
           </table>
         </div>

@@ -32,4 +32,26 @@ class Session
 			return false;
 		}
 	}
+
+	//This Function is For Logout
+	public static function destroy()
+	{
+		session_destroy();
+		session_unset();
+		header("Location:login.php");
+	}
+
+	public function checkSession()
+	{
+		if (self::get('login') == false) {
+			self::destroy();
+		}
+	}
+
+	public static function checkLogin()
+	{
+		if (self::get('login') == true) {
+				header("Location:index.php");
+			}	
+	}
 }

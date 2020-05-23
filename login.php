@@ -1,6 +1,7 @@
 <?php
   include_once 'inc/header.php';
   include_once 'lib/User.php';
+  Session::checkLogin();
 ?>
 <?php
   $user = new User();
@@ -12,12 +13,8 @@
         <div class="card-header">
           <h2>User Login</h2>
         </div>
-        <?php
-          if (isset($userLogin)) {
-            echo $userLogin;
-          }
-        ?>
-        <div class="card-body">
+        <div class="card-body m-auto" style="width: 500px;">
+        <?php if (isset($userLogin)) { echo $userLogin;  } ?>
           <form action="" method="post">
             <div class="form-group">
               <label for="email">Email</label>

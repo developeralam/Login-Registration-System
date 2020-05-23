@@ -2,6 +2,9 @@
   $filepath = realpath(dirname(__FILE__));
   include_once $filepath.'/../lib/Session.php';
   Session::init();
+  if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    Session::destroy();
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -20,25 +23,27 @@
       
       <!-- Header Top -->
       <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
-        <a class="navbar-brand" href="index.php">PHP Login Registratin system</a>
+        <a class="navbar-brand" href="index.php">PHP Login Registration system</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav ml-auto">
-            
+            <?php if (Session::get('login') == true) { ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="profile.php?id=<?php echo Session::get('id') ?>">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
+              <a class="nav-link" href="?action=logout">Logout</a>
             </li>
+          <?php }else{ ?>
             <li class="nav-item">
               <a class="nav-link" href="login.php">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="register.php">Register</a>
             </li>
+          <?php } ?>
           </ul>
         </div>
       </nav>

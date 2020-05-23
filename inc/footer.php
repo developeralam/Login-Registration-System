@@ -1,6 +1,6 @@
 <!-- Footer Part -->
       <div class="footer card card-body">
-        <h3>www.trainingwithliveproject.com
+        <h3>www.yourdomainname.com
           <span class="float-right">Facebook.com</span>
         </h3>
       </div>

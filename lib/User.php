@@ -72,6 +72,7 @@ class User
 				$msg = '<div class="alert alert-success"><strong>Success!</strong> You are logged in</div>';
 				SESSION::init();
 				SESSION::set('login', true);
+				SESSION::set('id', $result->id);
 				SESSION::set('name', $result->name);
 				SESSION::set('email', $result->email);
 				SESSION::set('username', $result->username);
@@ -109,6 +110,56 @@ class User
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	public function getUserData()
+	{
+		$sql = "SELECT * FROM tbl_user";
+		$stmt = $this->db->pdo->prepare($sql);
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+		return $result;
+	}
+
+	public function getUserById($id)
+	{
+		$sql = "SELECT * FROM tbl_user WHERE id = :id LIMIT 1";
+		$stmt= $this->db->pdo->prepare($sql);
+		$stmt->bindValue(':id', $id);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_OBJ);
+		return $result;
+	}
+
+	public function updateUserData($data)
+	{
+		$id = $data['id'];
+		$name = $data['name'];
+		$username = $data['username'];
+		$email = $data['email'];
+		$chckEmail = $this->emailCheck($email);
+		if (empty($name) or empty($username) or empty($email)) {
+			$msg = '<div class="alert alert-danger"><strong>Error!</strong>Field Must Not Be Empty</div>';
+			return $msg;
+		}else if($chckEmail == true){
+			$msg = '<div class="alert alert-danger"><strong>Error!</strong>This Email Already Exist</div>';
+			return $msg;
+		}else{
+			$sql = "UPDATE INTO tbl_user(name, username, email) VALUES(:name, :username, :email) WHERE id = :id";
+			$stmt = $this->db->pdo->prepare($sql);
+			$stmt->bindValue(':name', $name);
+			$stmt->bindValue(':username', $username);
+			$stmt->bindValue(':email', $email);
+			$stmt->bindValue(':id', $id);
+			$result =$stmt->execute();
+			if (isset($result)) {
+				$msg = '<div class="alert alert-success"><strong>Success!</strong>Profile Updated Successfully</div>';
+				return $msg;
+			}else{
+				$msg = '<div class="alert alert-danger"><strong>Error!</strong>Something Went Wrong</div>';
+				return $msg;
+			}
 		}
 	}
 }
